@@ -1,0 +1,57 @@
+# modify this file for modifying configuration for your environment
+
+# For upgrading staging environment using helm use:
+ingress:
+  defaultBackend: rails-app
+
+# Config map for providing environment variables for rails and sidekiq containers
+configMap:
+  name: bai-env
+  data:
+    - RAILS_ENV: production
+    - RAILS_LOG_TO_STDOUT: enabled
+    - RAILS_SERVE_STATIC_FILES: enabled
+    - REDIS_URL: redis://redis:6379/
+
+namespace: default
+label: prod
+appName: bai
+# Scale up/down sidekiq servers here:
+
+workers:
+  name: sidekiq
+  replicas: 1
+
+
+dockerAccountName: DOCKER_ACCOUNT_NAME
+
+# Scale up/down rails server, configure initialDelaySeconds, memory configuration here:
+railsServer:
+  name: rails-app
+  replicas: 1
+  startUpProbe:
+    initialDelaySeconds: 10
+
+# Configure memory and cpu requirements for redis
+
+redisServer:
+  name: redis
+  requests:
+    cpu: "0.1"
+    memory: "50Mi"
+  limits:
+    cpu: "0.4"
+    memory: "200Mi"
+
+# docker credential secret to be used for pulling docker images from docker hub.
+
+dockerCredentialSecretName: bai-docker-credentials
+
+# Secret to provide sensitive information such as mongodb url, password, etc.
+secret:
+  name: bai-secrets
+
+# Image name and tag for rails and sidekiq workers
+image:
+  name: bai_image
+  tag: latest

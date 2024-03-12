@@ -1,0 +1,33 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Values.railsServer.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- template "app_label" .}}
+spec:
+  replicas: {{ .Values.railsServer.replicas }}
+  selector:
+    matchLabels:
+      {{- include "app_label" . | indent 2}}
+      {{- include "api_tier" . | indent 2}}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "app_label" . | indent 4}}
+        {{- include "api_tier" . | indent 4}}
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.dockerCredentialSecretName }}
+      containers:
+      - image: {{ .Values.dockerAccountName }}/{{ .Values.image.name }}:{{.Values.image.tag}}
+        name: rails-app
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: {{ .Values.secret.name }}
+        - configMapRef:
+            name: {{ .Values.configMap.name }}

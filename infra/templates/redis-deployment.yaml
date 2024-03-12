@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.redisServer.name }}
+  labels:
+    {{- template "app_label" . }}
+    {{- template "redis_tier" }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "app_label" . | indent 2 }}
+      {{- include "redis_tier" . | indent 2 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "app_label" . | indent 4 }}
+        {{- include "redis_tier" . | indent 4 }}
+    spec:
+      containers:
+      - image: redis:alpine3.15
+        name: redis
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            cpu: {{ .Values.redisServer.requests.cpu }}
+            memory: {{ .Values.redisServer.requests.memory }}
+          limits:
+            cpu: {{ .Values.redisServer.limits.cpu }}
+            memory: {{ .Values.redisServer.limits.memory }}
