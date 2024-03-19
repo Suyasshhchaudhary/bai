@@ -1,5 +1,5 @@
 class Service < ApplicationRecord
-  belongs_to :patron
+  belongs_to :patron, counter_cache: true
 
   Devise.omniauth_configs.keys.each do |provider|
     scope provider, ->{ where(provider: provider) }

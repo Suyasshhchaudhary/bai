@@ -1,0 +1,3 @@
+class Maid < Patron
+
+end

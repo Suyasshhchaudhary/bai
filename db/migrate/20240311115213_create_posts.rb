@@ -4,8 +4,7 @@ class CreatePosts < ActiveRecord::Migration[7.1]
       t.string :title
       t.text :description
       t.float :demand
-      t.bigint :creator_id
-      t.string :creator_class
+      t.references :patron, null: false, foreign_key: true
       t.timestamps
     end
   end

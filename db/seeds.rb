@@ -7,9 +7,6 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-t.string :first_name
-t.string :last_name
-t.string :email, null: false, default: ""
-t.text :description
-t.timestamps null: false
-t.datetime :remember_created_at
+maid = Maid.create(email: 'maid@example.com', first_name: 'maid', last_name: 'bai', password: 'password')
+admin = Admin.create(email: 'admin@example.com', first_name: 'admin', last_name: 'a', password: 'password')
+customer = Customer.create(email: 'customer@example.com', first_name: 'customer', last_name: 'one', password: 'password')

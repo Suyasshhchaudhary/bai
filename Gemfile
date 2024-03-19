@@ -102,5 +102,5 @@ gem "exception_notification"
 gem "omniauth-rails_csrf_protection"
 gem "devise"
 gem "cssbundling-rails"
-gem "cancancan"
+# gem "cancancan"
 

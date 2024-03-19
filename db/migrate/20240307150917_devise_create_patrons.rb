@@ -32,7 +32,6 @@ class DeviseCreatePatrons < ActiveRecord::Migration[7.1]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-      t.boolean :admin
       t.string :first_name
       t.string :last_name
 
